@@ -1,0 +1,22 @@
+body {
+    background-color: black;
+}
+
+h1 {
+    color: red;
+}
+
+#input{
+    position: fixed;
+    bottom: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#wordinput {
+    position: fixed;
+    bottom: 5px;
+    width:130px;
+    text-align: center;
+}
