@@ -12,8 +12,9 @@
 body {
     margin: 0;
 }
-h1 {
-    color: red;
+
+span {
+    color: white;
 }
 
 #goalLine{
