@@ -7,6 +7,7 @@ const hpBox = document.querySelector("#hpBox");
 
 const HIDDEN_CLASSNAME = "hidden";
 const SPEED = 5;
+const MaxPosition = 1300;
 
 let flag = false;
 // 네이버 사전에서 가져올 수 있으면 좋을 듯
@@ -19,36 +20,24 @@ const wordStore = [
   "Tomato",
   "Pikachu",
 ];
+const numberOfWord = wordStore.length;
 let spanStore = [];
-let MaxPositionOfWord;
 let hp;
 let score;
 
 function createWord() {
-  const numberOfWord = wordStore.length;
-  MaxPositionOfWord = dashBoard.clientWidth - 100;
+  const span = document.createElement("span");
+  const wordPick = Math.floor(Math.random() * numberOfWord);
 
-  for (let i = 0; i < numberOfWord; i++) {
-    const span = document.createElement("span");
-    const wordPick = Math.floor(Math.random() * numberOfWord);
+  span.innerText = wordStore[wordPick];
+  span.style.position = "absolute";
+  span.style.top = "-20px";
+  span.style.left = `${Math.floor(Math.random() * MaxPosition) + 50}px`;
 
-    span.innerText = wordStore[wordPick];
-    span.style.position = "absolute";
-    span.style.top = "-20px";
-    span.style.left = `${Math.floor(Math.random() * MaxPositionOfWord) + 50}px`;
+  dashBoard.appendChild(span);
+  spanStore.push(span);
 
-    dashBoard.appendChild(span);
-    spanStore.push(span);
-
-    
-  }
-
-  console.log(numberOfWord);
-  for(let i=0; i<numberOfWord; i++) {
-    console.log(spanStore[i].innerText);
-  }
-  console.log("--------------");
-
+  console.log(span.innerText);
 }
 
 function printScore() {
@@ -73,27 +62,32 @@ function printHP() {
       hpBox.innerText = `HP: ♥`;
       break;
     default:
+      hpBox.innerText = `HP:`;
       flag = false;
-      if(confirm("FAILED\nRETRY AGAIN?")) {
-        location.reload();
-      };
+      endGame();
+  }
+}
+
+function endGame() {
+  if (confirm("RETRY AGAIN?")) {
+    location.reload();
   }
 }
 
 // WHEN spanWord arrive at goalLine, REMOVE and REDUCE hp
 function dropWord() {
-  if (flag) {
-    const numberOfWord = wordStore.length;
+  const lengthSpan = spanStore.length;
 
-    for (let i = 0; i < numberOfWord; i++) {
+  console.log(`span 개수: ${lengthSpan}`);
+  if (flag) {
+    for (let i = 0; i < lengthSpan; i++) {
       spanStore[i].style.top = parseInt(spanStore[i].style.top) + SPEED + "px";
 
-      if (parseInt(spanStore[i].style.top) >= 700) {
+      if (parseInt(spanStore[i].style.top) >= 679) {
         hp--;
-        spanStore.splice(i, 1);
-        console.log(`i는 ${i}번째 ${spanStore[i].innerText}`);
         dashBoard.removeChild(spanStore[i]);
-
+        spanStore.splice(i, 1);
+        i--;
         printHP();
       }
     }
@@ -110,7 +104,8 @@ function startGame(event) {
   flag = true;
   score = 0;
   hp = 5;
-  createWord();
+
+  setInterval(createWord, 500);
 
   // IF input == spanWord => REMOVE spanWord
   wordInput.addEventListener("keyup", function (event) {
@@ -130,6 +125,5 @@ function startGame(event) {
 
   setInterval(dropWord, 50);
 }
-
 
 startBtn.addEventListener("click", startGame);
