@@ -14,7 +14,7 @@ const wordStore = ["Venezia", "Project", "Game", "Romeo", "LuBu", "Tomato", "Pik
 let spanStore = [];
 let MaxPositionOfWord;
 let hp;
-let score = 0;
+let score;
 
 
 function createWord() {
@@ -34,6 +34,12 @@ function createWord() {
         spanStore.push(span);
     }
 }
+
+
+function printScore() {
+    scoreBox.innerText = `SCORE: ${score}`;
+}
+
 
 // WHEN spanWord arrive at goalLine, REMOVE and REDUCE hp
 function moveWord() {
@@ -64,6 +70,7 @@ function startGame(event) {
 
 
     flag = true;
+    score = 0;
     hp = 5;
     createWord();
 
@@ -76,7 +83,7 @@ function startGame(event) {
                     dashBoard.removeChild(spanStore[i]);
 
                     score += 100;
-                    // print score
+                    printScore();
                 }
             }
             wordInput.value = "";
