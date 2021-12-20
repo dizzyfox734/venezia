@@ -1,5 +1,5 @@
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .center {
@@ -9,9 +9,6 @@
     transform: translate(-50%, -50%);
 }
 
-.playing {
-    border-top: solid 3px white;
-}
 
 body {
     margin: 0;
@@ -28,15 +25,17 @@ span {
     height: 100px;
     display: flex;
     justify-content: center;
-
+    border-top: solid 3px white;
 }
+
 
 #wordInput {
     position: fixed;
-    width:130px;
+    width:250px;
     text-align: center;
     margin-top: 30px;
 }
+
 
 #startBtn {
     border: skyblue;
@@ -53,4 +52,18 @@ span {
     width: 100%;
     height: 800px;
     background-color: black;
+}
+
+#scoreBox {
+    color: white;
+    width: auto;
+    position: absolute;
+    bottom: 60px;
+}
+
+#hpBox {
+    color: white;
+    width: auto;
+    position: absolute;
+    bottom: 40px;
 }

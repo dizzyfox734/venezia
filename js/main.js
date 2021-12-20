@@ -2,9 +2,10 @@ const startBtn = document.querySelector("#startBtn");
 const wordInput = document.querySelector("#wordInput");
 const dashBoard = document.querySelector("#dashboard");
 const goalLine = document.querySelector("#goalLine");
+const scoreBox = document.querySelector("#scoreBox");
+const hpBox = document.querySelector("#hpBox");
 
 const HIDDEN_CLASSNAME = "hidden";
-const PLAYING_CLASSNAME = "playing";
 const SPEED = 5;
 
 let flag = false;
@@ -34,6 +35,7 @@ function createWord() {
     }
 }
 
+// WHEN spanWord arrive at goalLine, REMOVE and REDUCE hp
 function moveWord() {
     if(flag) {
         const numberOfWord = wordStore.length;
@@ -47,7 +49,6 @@ function moveWord() {
                 spanStore.splice(i, 1);
                 
                 dashBoard.removeChild(spanStore[i]);
-                console.log(`$i는 {i}입니다.`); // <=== Do remove!
 
             }
         }
@@ -57,23 +58,28 @@ function moveWord() {
 function startGame(event) {
     event.preventDefault();
     startBtn.classList.add(HIDDEN_CLASSNAME);
-    wordInput.classList.remove(HIDDEN_CLASSNAME);
-    goalLine.classList.add(PLAYING_CLASSNAME);
+    scoreBox.classList.remove(HIDDEN_CLASSNAME);
+    hpBox.classList.remove(HIDDEN_CLASSNAME);
+    goalLine.classList.remove(HIDDEN_CLASSNAME);
 
 
     flag = true;
     hp = 5;
     createWord();
 
-    wordInput.addEventListener("keyup", function() {
+
+    // IF input == spanWord => REMOVE spanWord
+    wordInput.addEventListener("keyup", function(event) {
         if(event.keyCode == 13) { // INPUT ENTER
             for(let i = 0; i<spanStore.length; i++) {
                 if(spanStore[i].innerText == wordInput.value) {
-                    // remove span
+                    dashBoard.removeChild(spanStore[i]);
+
                     score += 100;
                     // print score
                 }
             }
+            wordInput.value = "";
         }
     });
 
