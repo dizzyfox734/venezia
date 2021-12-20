@@ -105,6 +105,8 @@ function startGame(event) {
   score = 0;
   hp = 5;
 
+  setTimeout(endGame, 60000); // Time limit: 1min
+
   setInterval(createWord, 500);
 
   // IF input == spanWord => REMOVE spanWord
