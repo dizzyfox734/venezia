@@ -36,8 +36,6 @@ function createWord() {
 
   dashBoard.appendChild(span);
   spanStore.push(span);
-
-  console.log(span.innerText);
 }
 
 function printScore() {
@@ -76,14 +74,12 @@ function endGame() {
 
 // WHEN spanWord arrive at goalLine, REMOVE and REDUCE hp
 function dropWord() {
-  const lengthSpan = spanStore.length;
 
-  console.log(`span 개수: ${lengthSpan}`);
   if (flag) {
-    for (let i = 0; i < lengthSpan; i++) {
+    for (let i = 0; i < spanStore.length; i++) {
       spanStore[i].style.top = parseInt(spanStore[i].style.top) + SPEED + "px";
 
-      if (parseInt(spanStore[i].style.top) >= 679) {
+      if (parseInt(spanStore[i].style.top) > 678) {
         hp--;
         dashBoard.removeChild(spanStore[i]);
         spanStore.splice(i, 1);
@@ -107,7 +103,7 @@ function startGame(event) {
 
   setTimeout(endGame, 60000); // Time limit: 1min
 
-  setInterval(createWord, 500);
+  setInterval(createWord, 1000);
 
   // IF input == spanWord => REMOVE spanWord
   wordInput.addEventListener("keyup", function (event) {
@@ -116,16 +112,19 @@ function startGame(event) {
       for (let i = 0; i < spanStore.length; i++) {
         if (spanStore[i].innerText == wordInput.value) {
           dashBoard.removeChild(spanStore[i]);
+          spanStore.splice(i, 1);
 
           score += 100;
           printScore();
+
+          break; // Prevent duplicate deletion
         }
       }
       wordInput.value = "";
     }
   });
 
-  setInterval(dropWord, 50);
+  setInterval(dropWord, 200);
 }
 
 startBtn.addEventListener("click", startGame);
